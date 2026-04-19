@@ -38,3 +38,30 @@ spec:
     port: 80
     targetPort: 80
 ---
+# CURRENT WAY: networking.k8s.io/v1 with AWS ALB annotations
+# AWS Load Balancer Controller watches this resource and provisions an ALB on AWS
+# group.name: roboshop means both app1 and app2 share ONE ALB (cost saving)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app1
+  annotations:
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: 'arn:aws:acm:us-east-1:211116633177:certificate/75722b0d-e044-467c-9101-1643f53ae916'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/tags: Environment=dev,Project=roboshop
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: roboshop
+spec:
+  ingressClassName: alb
+  rules:
+  - host: "app1.dev88s.online"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: app1
+            port:
+              number: 80
