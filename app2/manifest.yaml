@@ -21,8 +21,8 @@ spec:
         component: app2
     spec:
       containers:
-      - name: app1
-        image: joindevops/app2:1.0.0
+      - name: app2
+        image: sam123yuktha/app2:1.0.0
 ---
 apiVersion: v1
 kind: Service
