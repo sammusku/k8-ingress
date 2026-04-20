@@ -32,6 +32,9 @@ eksctl create iamserviceaccount \
 `````
 Install controller via Helm:
 ```
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+````
 helm repo add eks https://aws.github.io/eks-charts
 ```
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
